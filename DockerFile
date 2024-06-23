@@ -1,0 +1,40 @@
+# Use an official PHP runtime as a parent image
+FROM php:7.4-apache
+
+# Set environment variables
+ENV POSTGRES_USER=myuser
+ENV POSTGRES_PASSWORD=mypassword
+ENV POSTGRES_DB=mydatabase
+ENV POSTGRES_HOST=db
+
+# Install PDO PostgreSQL extension and other dependencies
+RUN apt-get update \
+    && apt-get install -y libpq-dev \
+    && docker-php-ext-install pdo pdo_pgsql \
+    && apt-get update && apt-get install -y \
+    zip \
+    unzip
+    
+
+# Install Composer (if not already installed)
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Install PHPMailer via Composer
+RUN composer require phpmailer/phpmailer
+
+# Install PHP JWT via Composer
+RUN composer require firebase/php-jwt
+
+# Enable Apache modules and configurations
+RUN a2enmod rewrite
+
+# Copy your PHP application files into the Docker image
+COPY . /var/www/html/
+
+# Optionally, you can set up additional configurations or dependencies here
+
+# Expose the Apache HTTP port
+EXPOSE 80
+
+# Define the command to run when starting the container
+CMD ["apache2-foreground"]
