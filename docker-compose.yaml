@@ -4,9 +4,9 @@ services:
   web:
     image: levart
     environment:
-      EMAIL_HOST: 'live.smtp.mailtrap.io'
-      EMAIL_USERNAME: 'api'
-      EMAIL_PASSWORD: '7816f9a70d5e42e839c23ce4f9a8bdc3'
+      EMAIL_HOST: 'live.smtp.mailtrap.io' # Email Host
+      EMAIL_USERNAME: 'api' # Email Username
+      EMAIL_PASSWORD: '7816f9a70d5e42e839c23ce4f9a8bdc3' #Email Password
       JWT_SECRET: 'supersecret'
     ports:
       - "8080:80"
